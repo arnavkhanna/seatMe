@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="300" status="WARN">
+    <Properties>
+        <Property name="logDir">/var/log/customer</Property>
+        <Property name="component">customer</Property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="FILE" fileName="${logDir}/${component}.log"
+                     filePattern="${logDir}/${component}_%d{yyyy-MM-dd-HH-mm-ss}.log">
+            <PatternLayout pattern="%d{ISO8601}{GMT+0}|%-5p|%sn|%c{1.1.1.1.1.1.}|%t||%m%n%throwable"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="200 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy fileIndex="min" max="20"/>
+        </RollingFile>
+
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{ISO8601}{GMT+0}|%-5p|%sn|%c{1.1.1.1.1.1.}|%t||%m%n%throwable"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="FILE"/>
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>

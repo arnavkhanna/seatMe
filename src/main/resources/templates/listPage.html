@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style th:include = "navigation.html::STYLE">
+    </style>
+</head>
+<body>
+<header th:insert = "navigation.html::HEADER"></header>
+<nav th:include = "navigation.html::NAV"></nav>
+    <div class="messages" th:if="${messages}"><h3 th:text="${messages}"></h3></div>
+    <table style="width:100%">
+        <tr>
+            <th>Status</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Party Size</th>
+            <th>Number of Kids</th>
+            <th>Reservation Time</th>
+
+        </tr>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.status}"></td>
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.name}"></td>
+            <td th:text="${customer.phonenumber}"></td>
+            <td th:text="${customer.partysize}"></td>
+            <td th:text = "${customer.numKids}"></td>
+            <td th:text = "${customer.reservationtime}"></td>
+            <td><a th:href="@{/edit/{id}(id=${customer.id})}">Edit</a></td>
+            <td><a th:href="@{/remove/{id}(id=${customer.id})}">Remove</a></td>
+        </tr>
+    </table>
+</body>
+</html>

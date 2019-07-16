@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style th:fragment="STYLE">
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        nav a {
+            color: #fff;
+        }
+
+        nav li{
+            float:left;
+            display: block;
+            color: #000;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav li.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        nav li:hover:not(.active) {
+            background-color: #555;
+            color: white;
+        }
+    </style>
+</head>
+
+
+<header th:fragment = "HEADER"><h1>SeatMe</h1></header>
+
+
+<nav th:fragment="NAV">
+<ul>
+    <li th:if="${#httpServletRequest.requestURI == '/add'}" class="active">Add</li>
+    <li th:unless="${#httpServletRequest.requestURI == '/add'}"><a th:href="@{/add}">Add</a></li>
+    <li th:if="${#httpServletRequest.requestURI == '/'} "class="active">Search</li></span>
+    <li th:unless="${#httpServletRequest.requestURI == '/'}"><a th:href="@{/}">Search</a></li>
+    <li th:if="${#httpServletRequest.requestURI == '/all'} "class="active">List of All Entries</li></span>
+    <li th:unless="${#httpServletRequest.requestURI == '/all'}"><a th:href="@{/all}">List of All Entries</a></li>
+</ul>
+</nav>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style th:include="navigation.html::STYLE"></style>
+</head>
+<body>
+<header th:insert="navigation.html::HEADER"></header>
+<nav th:insert="navigation.html::NAV"></nav>
+<table style="width:100%">
+    <tr>
+        <th>ID</th>
+        <td th:text="${customer.id}"></td>
+    </tr>
+    <tr>
+        <th>Make</th>
+        <td th:text="${customer.make}"></td>
+    </tr>
+    <tr>
+        <th>Model</th>
+        <td th:text="${customer.model}"></td>
+    </tr>
+    <tr>
+        <th>Year</th>
+        <td th:text="${customer.year}"></td>
+    </tr>
+</table>
+</body>
+</html>

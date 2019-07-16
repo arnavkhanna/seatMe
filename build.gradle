@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'jacoco'
+    id "org.sonarqube" version "2.7"
+    id 'org.springframework.boot' version '2.1.5.RELEASE'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.reservation'
+version '1.0-SNAPSHOT'
+project.version = '1.0'
+
+repositories {
+    mavenCentral()
+    maven { url "https://packages.confluent.io/maven/" }
+}
+
+configurations {
+    compile.exclude module: 'spring-boot-starter-logging'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
+
+    // jpa, crud repository
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+
+    // PostgreSQL
+    compile group: 'org.postgresql', name: 'postgresql'
+
+    // thymeleaf - web template
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
+
+    compile group: "com.twilio.sdk", name: "twilio", version: "7.40.0"
+
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+}

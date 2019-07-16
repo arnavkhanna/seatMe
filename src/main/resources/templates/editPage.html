@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style th:include = "navigation.html::STYLE">
+    </style>
+</head>
+<body>
+<header th:insert = "navigation.html::HEADER"></header>
+
+<form action="#" th:action="${Action}" th:object="${customerform}" method="post">
+    <nav th:insert = "navigation.html::NAV"></nav>
+    <div class="messages" th:if="${messages}"><h3 th:text="${messages}"></h3></div>
+    <table style="width:100%">
+        <tr>
+            <th>Name</th>
+            <td><p><input type="text" th:field="*{name}" /></p></td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>
+
+            <select name = "status">
+                <option value = "Waiting" th:selected="*{status == 'Waiting'}">Waiting</option>
+                <option value = "Table Ready" th:selected="*{status == 'Table Ready'}">Table Ready</option>
+                <option value = "Seated" th:selected="*{status == 'Seated'}">Seated</option>
+
+            </select><td>
+        </tr>
+        <tr>
+            <th>Phone Number</th>
+            <td><p><input type="text" th:field="*{phonenumber}"/></p></td>
+        </tr>
+        <tr>
+            <th>Party Size</th>
+            <td><p><input type="text" th:field="*{partysize}" /></p></td>
+        </tr>
+        <tr>
+            <th>Number of Kids</th>
+            <td><p><input type="text" th:field="*{numKids}" /></p></td>
+        </tr>
+
+        <tr>
+            <th></th>
+            <td><input type="submit" th:value= "${buttonVal}" /><input type="reset" value="Reset" /></td>
+        </tr>
+
+    </table>
+
+</form>
+</body>
+</html>

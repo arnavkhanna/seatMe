@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <style th:include = "navigation.html::STYLE"></style>
+</head>
+<body>
+<header th:insert = "navigation.html::HEADER"></header>
+<nav th:insert = "navigation.html::NAV">
+</nav>
+<form action="#" th:action="@{/}" th:object="${carform}" method="post">
+    <p>Id: <input type="text" th:field="*{id}" /></p>
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    <span th:if="${Error == 'ID not found'}">ID not Found</span>
+</form>
+</body>
+</html>
