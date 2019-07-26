@@ -2,6 +2,7 @@ package com.reservation.controller;
 
 import com.reservation.entity.Customer;
 import com.reservation.form.CustomerForm;
+import com.reservation.form.CustomerNotesForm;
 import com.reservation.services.ReservationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,7 +92,7 @@ public class WebController {
         model.addAttribute("Action","/edit/" + id);
         Optional<Customer> customerVar = reservationService.locateCustomer(id);
         if (customerVar.isPresent()){
-            CustomerForm customerForm = new CustomerForm(customerVar.get());
+            CustomerForm customerForm = new CustomerForm(customerVar.get(), null);
             model.addAttribute("customerform", customerForm);
         }
         else{
@@ -128,4 +129,28 @@ public class WebController {
         }
     }
 
+    @GetMapping(value = "/notes/{id}")
+    public String notes(Model model, @PathVariable int id){
+        model.addAttribute("Action","/notes/" + id);
+        Optional<Customer> customerVar = reservationService.locateCustomer(id);
+        if (customerVar.isPresent()){
+            CustomerNotesForm customerNotesForm = new CustomerNotesForm();
+            model.addAttribute("customerNotesform", customerNotesForm);
+        }
+        else{
+            model.addAttribute("messages","There was an error updating values");
+        }
+        return "notesPage";
+    }
+    @PostMapping(value = "/notes/{id}")
+    public String notesPost(Model model, CustomerNotesForm customerNotesForm, CustomerForm customerForm, @PathVariable int id){
+        model.addAttribute("Action","/notes/" + id);
+        model.addAttribute("messages","Successfully updated.");
+        model.addAttribute("buttonVal", "Update");
+        model.addAttribute("customerNotesForm", customerNotesForm);
+        reservationService.saveCustomer(customerForm);
+        return "notesPage";
+    }
+
 }
+

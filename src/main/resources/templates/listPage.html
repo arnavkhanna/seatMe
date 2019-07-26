@@ -30,6 +30,7 @@
             <td th:text = "${customer.reservationtime}"></td>
             <td><a th:href="@{/edit/{id}(id=${customer.id})}">Edit</a></td>
             <td><a th:href="@{/remove/{id}(id=${customer.id})}">Remove</a></td>
+            <td><a th:href="@{/notes/{id}(id=${customer.id})}">Notes</a></td>
         </tr>
     </table>
 </body>

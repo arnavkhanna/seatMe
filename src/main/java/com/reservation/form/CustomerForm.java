@@ -1,6 +1,8 @@
 package com.reservation.form;
 
 import com.reservation.entity.Customer;
+import com.reservation.form.CustomerNotesForm;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -11,18 +13,32 @@ public class CustomerForm {
     private Integer partysize;
     private Integer numKids;
     private String status;
+    private String notes;
 
 
     public CustomerForm() {
     }
 
-    public CustomerForm(Customer customer) {
+    public CustomerForm(Customer customer, CustomerNotesForm customerNotesForm) {
         this.id = customer.getId();
         this.name = customer.getName();
         this.phonenumber = customer.getPhonenumber();
         this.partysize = customer.getPartysize();
         this.numKids = customer.getNumKids();
         this.status = customer.getStatus();
+
+        if (customerNotesForm != null) {
+            this.notes = customerNotesForm.getNotes();
+        }
+
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public Integer getId() {

@@ -1,11 +1,13 @@
 package com.reservation.entity;
 
 import com.reservation.form.CustomerForm;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 @Entity
 @Table(name = "customers")
+@DynamicUpdate
 public class Customer {
 
     @Id
@@ -16,6 +18,7 @@ public class Customer {
     private Integer partysize;
     private Integer numKids;
     private String status;
+    private String notes;
     LocalDateTime createtime;
     LocalDateTime updatetime;
     LocalDateTime reservationtime;
@@ -33,6 +36,7 @@ public class Customer {
         this.createtime = LocalDateTime.now();
         this.updatetime = LocalDateTime.now();
         this.reservationtime = this.createtime.plusHours(1);
+        this.notes = customerForm.getNotes();
         if (customerForm.getId() == null) {
             this.status = "Waiting";
         } else {
@@ -111,6 +115,14 @@ public class Customer {
         this.status = status;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -120,6 +132,7 @@ public class Customer {
                 ", partysize=" + partysize +
                 ", numKids=" + numKids +
                 ", status='" + status + '\'' +
+                ", notes='" + notes + '\'' +
                 ", createtime=" + createtime +
                 ", updatetime=" + updatetime +
                 ", reservationtime=" + reservationtime +
