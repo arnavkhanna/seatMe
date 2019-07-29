@@ -92,7 +92,7 @@ public class WebController {
         model.addAttribute("Action","/edit/" + id);
         Optional<Customer> customerVar = reservationService.locateCustomer(id);
         if (customerVar.isPresent()){
-            CustomerForm customerForm = new CustomerForm(customerVar.get(), null);
+            CustomerForm customerForm = new CustomerForm(customerVar.get());
             model.addAttribute("customerform", customerForm);
         }
         else{
@@ -138,17 +138,16 @@ public class WebController {
             model.addAttribute("customerNotesform", customerNotesForm);
         }
         else{
-            model.addAttribute("messages","There was an error updating values");
+            model.addAttribute("messages","There was an error updating notes");
         }
         return "notesPage";
     }
     @PostMapping(value = "/notes/{id}")
-    public String notesPost(Model model, CustomerNotesForm customerNotesForm, CustomerForm customerForm, @PathVariable int id){
+    public String notesPost(Model model, CustomerNotesForm customerNotesForm, @PathVariable int id){
         model.addAttribute("Action","/notes/" + id);
         model.addAttribute("messages","Successfully updated.");
         model.addAttribute("buttonVal", "Update");
         model.addAttribute("customerNotesForm", customerNotesForm);
-        reservationService.saveCustomer(customerForm);
         return "notesPage";
     }
 
