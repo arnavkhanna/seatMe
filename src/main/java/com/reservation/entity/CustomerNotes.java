@@ -2,18 +2,22 @@ package com.reservation.entity;
 
 import com.reservation.form.CustomerNotesForm;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-
+@Entity
+@Table(name = "notes")
 public class CustomerNotes {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer customer_id;
+    private Integer customerId;
     private String notes;
     LocalDateTime createtime;
     LocalDateTime updatetime;
 
     public CustomerNotes(CustomerNotesForm customerNotesForm){
         this.id = customerNotesForm.getId();
-        this.customer_id = customerNotesForm.getCustomer_id();
+        this.customerId = customerNotesForm.getCustomerId();
         this.notes = customerNotesForm.getNotes();
         this.createtime = LocalDateTime.now();
         this.updatetime = LocalDateTime.now();
@@ -27,12 +31,12 @@ public class CustomerNotes {
         this.id = id;
     }
 
-    public Integer getCustomer_id() {
-        return customer_id;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer_id(Integer customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
     public String getNotes() {

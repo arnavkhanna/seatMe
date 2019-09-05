@@ -4,12 +4,12 @@ import com.reservation.entity.CustomerNotes;
 
 public class CustomerNotesForm {
     private Integer id;
-    private Integer customer_id;
+    private Integer customerId;
     private String notes;
 
     public CustomerNotesForm(CustomerNotes customerNotes) {
         this.id = customerNotes.getId();
-        this.customer_id = customerNotes.getCustomer_id();
+        this.customerId = customerNotes.getCustomerId();
         this.notes = customerNotes.getNotes();
     }
 
@@ -24,12 +24,12 @@ public class CustomerNotesForm {
     }
 
 
-    public Integer getCustomer_id() {
-        return customer_id;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer_id(Integer customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
 
@@ -45,7 +45,7 @@ public class CustomerNotesForm {
     public String toString() {
         return "CustomerNotesForm{" +
                 "id=" + id +
-                ", customer_id=" + customer_id +
+                ", customer_id=" + customerId +
                 ", notes='" + notes + '\'' +
                 '}';
     }

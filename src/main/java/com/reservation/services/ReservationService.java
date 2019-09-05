@@ -1,7 +1,10 @@
 package com.reservation.services;
 
 import com.reservation.entity.Customer;
+import com.reservation.entity.CustomerNotes;
 import com.reservation.form.CustomerForm;
+import com.reservation.form.CustomerNotesForm;
+import com.reservation.repositories.NotesRepository;
 import com.reservation.repositories.ReservationRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,11 +21,13 @@ public class ReservationService {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private ReservationRepository reservationRepository;
+    private NotesRepository notesRepository;
 
 
     @Autowired
-    public ReservationService(ReservationRepository reservationRepository) {
+    public ReservationService(ReservationRepository reservationRepository, NotesRepository notesRepository) {
         this.reservationRepository = reservationRepository;
+        this.notesRepository = notesRepository;
     }
 
     public Optional<Customer> locateCustomer(int id) {
@@ -36,6 +41,13 @@ public class ReservationService {
         logger.info("Locating reservation: {}", customerForm);
 
         return reservationRepository.save(customer);
+    }
+
+    public CustomerNotes saveNotes(CustomerNotesForm customerNotesForm){
+        CustomerNotes customerNotes = new CustomerNotes(customerNotesForm);
+        logger.info("Locating notes{}", customerNotesForm);
+
+        return notesRepository.save(customerNotes);
     }
 
     public void deleteCustomer(int id) {
