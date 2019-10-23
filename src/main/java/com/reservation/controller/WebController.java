@@ -1,6 +1,7 @@
 package com.reservation.controller;
 
 import com.reservation.entity.Customer;
+import com.reservation.entity.CustomerNotes;
 import com.reservation.form.CustomerForm;
 import com.reservation.form.CustomerNotesForm;
 import com.reservation.services.ReservationService;
@@ -156,8 +157,43 @@ public class WebController {
         model.addAttribute("messages","Successfully updated.");
         model.addAttribute("buttonVal", "Update");
         model.addAttribute("customerNotesForm", customerNotesForm);
+        return "notesPage";
+    }
+    @GetMapping(value = "/addnotes/{id}")
+    public String addNotes(@ModelAttribute CustomerNotesForm customerNotesForm, Model model,@PathVariable int id){
+        logger.info(customerNotesForm);
+        Optional<Customer> customerVar = reservationService.locateCustomer(id);
+        if (customerVar.isPresent()){
+            Customer customer = customerVar.get();
+            model.addAttribute("customer", customer);
+            model.addAttribute("customerNotesForm", customerNotesForm);
+        }
+        else{
+            model.addAttribute("messages","There was an error updating notes");
+        }
+        model.addAttribute("buttonVal", "Add");
+        model.addAttribute("customerNotesForm", new CustomerNotesForm());
+        model.addAttribute("Action","add");
         return "addNotesPage";
+
     }
 
+    @PostMapping(value = "/addnotes/{id}")
+    public String addNotesResults(@ModelAttribute CustomerNotesForm customerNotesForm, Model model, @PathVariable int id){
+        model.addAttribute("Action","add");
+        logger.info(customerNotesForm);
+        CustomerNotes customer = reservationService.saveNotes(customerNotesForm);
+        model.addAttribute("buttonVal", "Add");
+        if (customer == null){
+            model.addAttribute("customerNotesForm", customerNotesForm);
+            model.addAttribute("messages", "There was an error adding the values to the database.");
+            return "addNotesPage";
+        }
+        else{
+            model.addAttribute("customerNotesForm",new CustomerNotesForm());
+            model.addAttribute("messages", "Successfully added.");
+            return "addNotesPage";
+        }
+    }
 }
 

@@ -9,10 +9,9 @@
 <header th:insert = "navigation.html::HEADER"></header>
 <nav th:insert = "navigation.html::NAV">
 </nav>
-<h3>Notes for <span th:remove = "tag" th:text="${customer.name}"></span></h3>
+<h3>Add Notes for <span th:remove = "tag" th:text="${customer.name}"></span></h3>
 <form action="#" th:action="${Action}" th:object="${customerNotesForm}" method="post">
-    <a href /notes>
-    <input type = "hidden" th:field = "*{customerId}"/>
+    <input type = "hidden" th:field = "*{notes}"/>
     <textarea rows = "20" cols = "150">
     </textarea>
     <input type = "submit" value = "submit" />
