@@ -12,8 +12,11 @@ public class CustomerNotes {
     private Integer id;
     private Integer customerId;
     private String notes;
-    LocalDateTime createtime;
-    LocalDateTime updatetime;
+    private LocalDateTime createtime;
+    private LocalDateTime updatetime;
+
+    public CustomerNotes() {
+    }
 
     public CustomerNotes(CustomerNotesForm customerNotesForm){
         this.id = customerNotesForm.getId();

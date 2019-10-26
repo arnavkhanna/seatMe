@@ -4,6 +4,7 @@ import com.reservation.form.CustomerForm;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "customers")
 public class Customer {
@@ -16,9 +17,9 @@ public class Customer {
     private Integer partysize;
     private Integer numKids;
     private String status;
-    LocalDateTime createtime;
-    LocalDateTime updatetime;
-    LocalDateTime reservationtime;
+    private LocalDateTime createtime;
+    private LocalDateTime updatetime;
+    private LocalDateTime reservationtime;
 
 
     public Customer() {
