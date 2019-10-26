@@ -7,10 +7,12 @@
 </head>
 <body>
 <header th:insert = "navigation.html::HEADER"></header>
-<nav th:insert = "navigation.html::NAV">
-</nav>
+<nav th:insert = "navigation.html::NAV"></nav>
+
+<h3 th:if="${messages != null}" th:text="${messages}"></h3>
+
 <h3>Notes for <span th:remove = "tag" th:text="${customer.name}"></span></h3>
-    <a th:href="@{/addnotes/{customerId}}">Add Notes</a>
+    <a th:href="@{/addnotes/{id}(id=${customer.id})}">Add Notes</a>
 
 
 </body>

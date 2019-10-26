@@ -11,9 +11,7 @@
 </nav>
 <h3>Add Notes for <span th:remove = "tag" th:text="${customer.name}"></span></h3>
 <form action="#" th:action="${Action}" th:object="${customerNotesForm}" method="post">
-    <input type = "hidden" th:field = "*{notes}"/>
-    <textarea rows = "20" cols = "150">
-    </textarea>
+    <textarea rows = "20" cols = "150" name="notes"></textarea>
     <input type = "submit" value = "submit" />
 </form>
 </body>

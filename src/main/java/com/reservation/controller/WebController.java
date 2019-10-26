@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class WebController {
 
     private final Logger logger = LogManager.getLogger(getClass());
+
     private final ReservationService reservationService;
 
     public WebController(ReservationService reservationService) {
@@ -38,6 +40,7 @@ public class WebController {
     public String post(@ModelAttribute CustomerForm customerForm, Model model){
         logger.info(customerForm);
         Optional<Customer> customerVar = reservationService.locateCustomer(customerForm.getId());
+
         if (customerVar.isPresent()) {
             Customer customer = customerVar.get();
             model.addAttribute("car", customer);
@@ -48,10 +51,6 @@ public class WebController {
             model.addAttribute("Error", "ID not found");
             return "getPage";
         }
-
-
-
-
     }
 
     @GetMapping(value = "/add")
@@ -130,21 +129,34 @@ public class WebController {
         }
     }
 
-    @GetMapping(value = "/notes/{id}")
-    public String notes(Model model, @PathVariable int id){
-        model.addAttribute("Action","/notes/" + id);
-        Optional<Customer> customerVar = reservationService.locateCustomer(id);
+    /**
+     * Retrieve all of the notes for the customerId
+     *
+     * @param model
+     * @param customerId
+     * @return
+     */
+    @GetMapping(value = "/notes/{customerId}")
+    public String retrieveAllNotes(Model model, @PathVariable int customerId) {
+
+        model.addAttribute("Action","/notes/" + customerId);
+
+        Optional<Customer> customerVar = reservationService.locateCustomer(customerId);
+
         if (customerVar.isPresent()){
             Customer customer = customerVar.get();
+
             model.addAttribute("customer", customer);
-            CustomerNotesForm customerNotesForm = new CustomerNotesForm();
-            model.addAttribute("customerNotesForm", customerNotesForm);
-        }
-        else{
+            model.addAttribute("customerNotesForm", new CustomerNotesForm());
+
+        } else{
             model.addAttribute("messages","There was an error updating notes");
         }
+
         return "notesPage";
     }
+
+
     @PostMapping(value = "/notes/{id}")
     public String notesPost(Model model, CustomerNotesForm customerNotesForm, @PathVariable int id){
         reservationService.saveNotes(customerNotesForm);
@@ -160,7 +172,7 @@ public class WebController {
         return "notesPage";
     }
     @GetMapping(value = "/addnotes/{id}")
-    public String addNotes(@ModelAttribute CustomerNotesForm customerNotesForm, Model model,@PathVariable int id){
+    public String addNotes(@ModelAttribute CustomerNotesForm customerNotesForm, Model model, @PathVariable int id) {
         logger.info(customerNotesForm);
         Optional<Customer> customerVar = reservationService.locateCustomer(id);
         if (customerVar.isPresent()){
@@ -173,26 +185,32 @@ public class WebController {
         }
         model.addAttribute("buttonVal", "Add");
         model.addAttribute("customerNotesForm", new CustomerNotesForm());
-        model.addAttribute("Action","add");
+        model.addAttribute("Action","/addnotes/" + id);
         return "addNotesPage";
 
     }
 
-    @PostMapping(value = "/addnotes/{id}")
-    public String addNotesResults(@ModelAttribute CustomerNotesForm customerNotesForm, Model model, @PathVariable int id){
-        model.addAttribute("Action","add");
+    @PostMapping(value = "/addnotes/{customerId}")
+    public String addNotesResults(RedirectAttributes redirAttrs, @ModelAttribute CustomerNotesForm customerNotesForm, Model model, @PathVariable int customerId) {
+
+        customerNotesForm.setCustomerId(customerId);
+
         logger.info(customerNotesForm);
+
         CustomerNotes customer = reservationService.saveNotes(customerNotesForm);
-        model.addAttribute("buttonVal", "Add");
+
         if (customer == null){
+            model.addAttribute("Action","/addnotes/" + customerId);
+            model.addAttribute("buttonVal", "Add");
             model.addAttribute("customerNotesForm", customerNotesForm);
+
             model.addAttribute("messages", "There was an error adding the values to the database.");
             return "addNotesPage";
-        }
-        else{
-            model.addAttribute("customerNotesForm",new CustomerNotesForm());
-            model.addAttribute("messages", "Successfully added.");
-            return "addNotesPage";
+        } else {
+            // show message on the redirect page
+            redirAttrs.addFlashAttribute("messages", "Successfully added new note");
+
+            return "redirect:/notes/" + customerId;
         }
     }
 }
