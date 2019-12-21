@@ -4,6 +4,7 @@ import com.reservation.form.CustomerForm;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "customers")
 public class Customer {
@@ -11,14 +12,15 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "name")
     private String name;
     private String phonenumber;
     private Integer partysize;
     private Integer numKids;
     private String status;
-    LocalDateTime createtime;
-    LocalDateTime updatetime;
-    LocalDateTime reservationtime;
+    private LocalDateTime createtime;
+    private LocalDateTime updatetime;
+    private LocalDateTime reservationtime;
 
 
     public Customer() {
@@ -33,12 +35,14 @@ public class Customer {
         this.createtime = LocalDateTime.now();
         this.updatetime = LocalDateTime.now();
         this.reservationtime = this.createtime.plusHours(1);
+
         if (customerForm.getId() == null) {
             this.status = "Waiting";
         } else {
             this.status = customerForm.getStatus();
         }
     }
+
     public LocalDateTime getCreatetime() {
         return createtime;
     }

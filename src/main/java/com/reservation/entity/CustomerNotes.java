@@ -4,6 +4,8 @@ import com.reservation.form.CustomerNotesForm;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
 @Entity
 @Table(name = "notes")
 public class CustomerNotes {
@@ -12,8 +14,11 @@ public class CustomerNotes {
     private Integer id;
     private Integer customerId;
     private String notes;
-    LocalDateTime createtime;
-    LocalDateTime updatetime;
+    private LocalDateTime createtime;
+    private LocalDateTime updatetime;
+
+    public CustomerNotes() {
+    }
 
     public CustomerNotes(CustomerNotesForm customerNotesForm){
         this.id = customerNotesForm.getId();
@@ -63,4 +68,18 @@ public class CustomerNotes {
         this.updatetime = updatetime;
     }
 
+
+    public boolean checkId(int o) {
+        if (this.customerId == o){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(notes);
+    }
 }

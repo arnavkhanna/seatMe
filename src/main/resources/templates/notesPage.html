@@ -7,14 +7,26 @@
 </head>
 <body>
 <header th:insert = "navigation.html::HEADER"></header>
-<nav th:insert = "navigation.html::NAV">
-</nav>
-<h3>Add Notes for <span th:remove = "tag" th:text="${customer.name}"></span></h3>
-<form action="#" th:action="${Action}" th:object="${customerNotesForm}" method="post">
-    <input type = "hidden" th:field = "*{customerId}"/>
-    <textarea rows = "20" cols = "150">
-    </textarea>
-    <input type = "submit" value = "submit" />
-</form>
+<nav th:insert = "navigation.html::NAV"></nav>
+
+<h3 th:if="${messages != null}" th:text="${messages}"></h3>
+
+<h3>Notes for <span th:remove = "tag" th:text="${customer.name}"></span></h3>
+    <a th:href="@{/addnotes/{id}(id=${customer.id})}">Add Notes</a>
+
+        <div th:each="note : ${notes}">
+        <p th:text="${note.notes}"></p>
+            <br/>
+            <br/>
+            <p><a th:href="@{/notesedit/{id}/{notesid} (id=${note.customerId},notesid=${note.getId()})}">Edit</a></p>
+            <p><a th:href="@{/notesremove/{id}/{notesid} (id=${note.customerId},notesid=${note.getId()})}">Remove</a></p>
+            <p th:text = "${note.getCreatetime()}"></p>
+            <hr/>
+
+        </div>
+
+
+
+
 </body>
 </html>

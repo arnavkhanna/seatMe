@@ -30,12 +30,35 @@ public class ReservationService {
         this.notesRepository = notesRepository;
     }
 
+    /**
+     * for locating customer. need to change so its search by name not search by id
+     * search by element???
+     *
+     * @param id
+     * @return
+     */
     public Optional<Customer> locateCustomer(int id) {
 
         logger.info("Locating reservation: {}", id);
 
         return reservationRepository.findById(id);
     }
+
+
+    public Optional<Customer> findByName(String name) {
+
+        logger.info("Locating reservation: {}", name);
+
+        return reservationRepository.findCustomerByName(name);
+    }
+
+
+    /**
+     * Saves customer to db
+     *
+     * @param customerForm
+     * @return
+     */
     public Customer saveCustomer(CustomerForm customerForm) {
         Customer customer = new Customer(customerForm);
         logger.info("Locating reservation: {}", customerForm);
@@ -43,6 +66,11 @@ public class ReservationService {
         return reservationRepository.save(customer);
     }
 
+    /**
+     * Saves notes to db
+     * @param customerNotesForm
+     * @return
+     */
     public CustomerNotes saveNotes(CustomerNotesForm customerNotesForm){
         CustomerNotes customerNotes = new CustomerNotes(customerNotesForm);
         logger.info("Locating notes{}", customerNotesForm);
@@ -64,5 +92,30 @@ public class ReservationService {
         }
         return customerList;
     }
+
+    public ArrayList<CustomerNotes> showAllNotes(){
+        logger.info("Displaying all");
+        ArrayList<CustomerNotes> notesList = new ArrayList<>();
+        Iterable<CustomerNotes> notes = notesRepository.findAll();
+        Iterator<CustomerNotes> notesIterator = notes.iterator();
+        while(notesIterator.hasNext()){
+            notesList.add(notesIterator.next());
+        }
+        return notesList;
+    }
+
+    public Optional<CustomerNotes> locateNotes(int id) {
+
+        logger.info("Locating reservation: {}", id);
+
+        return notesRepository.findById(id);
+    }
+
+    public void deleteNotes(int id) {
+        logger.info("Deleting reservation: {}", id);
+        notesRepository.deleteById(id);
+    }
+
+
 
 }

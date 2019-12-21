@@ -9,9 +9,9 @@
 <header th:insert = "navigation.html::HEADER"></header>
 <nav th:insert = "navigation.html::NAV">
 </nav>
-<h3>Add Notes for <span th:remove = "tag" th:text="${customer.name}"></span></h3>
+<h3>Edit Notes for <span th:remove = "tag" th:text="${customer.name}"></span></h3>
 <form action="#" th:action="${Action}" th:object="${customerNotesForm}" method="post">
-    <textarea rows = "20" cols = "150" name="notes"></textarea>
+    <textarea rows = "20" cols = "150" name="notes" th:text="${customerNotesForm.getNotes()}"></textarea>
     <input type = "submit" value = "submit" />
 </form>
 </body>
