@@ -45,11 +45,11 @@ public class ReservationService {
     }
 
 
-    public Optional<Customer> findByName(String name) {
+    public Iterable<Customer> findByName(String name) {
 
         logger.info("Locating reservation: {}", name);
 
-        return reservationRepository.findCustomerByName(name);
+        return reservationRepository.findAllByNameContainingIgnoreCase(name);
     }
 
 

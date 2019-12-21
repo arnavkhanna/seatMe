@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Optional;
 
 
@@ -47,13 +48,18 @@ public class WebController {
     @PostMapping(value = "/")
     public String post(@ModelAttribute CustomerForm customerForm, Model model){
         logger.info(customerForm);
-        Optional<Customer> customerVar = reservationService.findByName(customerForm.getName());
+        ArrayList<Customer> nameList = new ArrayList<Customer>();
+        Iterable<Customer> customerVar = reservationService.findByName(customerForm.getName());
+        Iterator<Customer> customerIterator = customerVar.iterator();
+        while(customerIterator.hasNext()){
+            nameList.add(customerIterator.next());
+        }
 
 
-        if (customerVar.isPresent()) {
-            Customer customer = customerVar.get();
-            model.addAttribute("customer", customer);
-            return "getPageResults";
+
+        if (nameList.size() > 0) {
+            model.addAttribute("customers", nameList);
+            return "listPage";
         }
         else{
             model.addAttribute("customerform", new CustomerForm());
