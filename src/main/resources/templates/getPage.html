@@ -9,8 +9,8 @@
 <header th:insert = "navigation.html::HEADER"></header>
 <nav th:insert = "navigation.html::NAV">
 </nav>
-<form action="#" th:action="@{/}" th:object="${carform}" method="post">
-    <p>Id: <input type="text" th:field="*{id}" /></p>
+<form action="#" th:action="@{/}" th:object="${customerform}" method="post">
+    <p>Name: <input type="text" th:field="*{name}" /></p>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     <span th:if="${Error == 'ID not found'}">ID not Found</span>
 </form>

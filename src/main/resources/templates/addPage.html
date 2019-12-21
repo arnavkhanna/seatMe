@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -15,15 +15,6 @@
         <tr>
             <th>Name</th>
             <td><p><input type="text" th:field="*{name}" /></p></td>
-        </tr>
-        <tr th:if="${#httpServletRequest.requestURI == '/edit/'}">
-            <th>Status</th>
-            <td><select name = "status">
-                <option value = "waiting" selected>Waiting</option>
-                <option value = "ready">Table Ready</option>
-                <option value = "seated">Seated</option>
-
-            </select><td>
         </tr>
         <tr>
             <th>Phone Number</th>

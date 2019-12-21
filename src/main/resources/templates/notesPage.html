@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <style th:include = "navigation.html::STYLE"></style>
+</head>
+<body>
+<header th:insert = "navigation.html::HEADER"></header>
+<nav th:insert = "navigation.html::NAV"></nav>
+
+<h3 th:if="${messages != null}" th:text="${messages}"></h3>
+
+<h3>Notes for <span th:remove = "tag" th:text="${customer.name}"></span></h3>
+    <a th:href="@{/addnotes/{id}(id=${customer.id})}">Add Notes</a>
+
+        <div th:each="note : ${notes}">
+        <p th:text="${note.notes}"></p>
+            <br/>
+            <br/>
+            <p><a th:href="@{/notesedit/{id}/{notesid} (id=${note.customerId},notesid=${note.getId()})}">Edit</a></p>
+            <p><a th:href="@{/notesremove/{id}/{notesid} (id=${note.customerId},notesid=${note.getId()})}">Remove</a></p>
+            <p th:text = "${note.getCreatetime()}"></p>
+            <hr/>
+
+        </div>
+
+
+
+
+</body>
+</html>
