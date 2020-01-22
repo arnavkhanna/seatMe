@@ -5,6 +5,7 @@ import com.reservation.entity.CustomerNotes;
 import com.reservation.form.CustomerForm;
 import com.reservation.form.CustomerNotesForm;
 import com.reservation.services.ReservationService;
+import com.reservation.services.SmsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,11 @@ public class WebController {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private final ReservationService reservationService;
+    private final SmsService smsService;
 
-    public WebController(ReservationService reservationService) {
+    public WebController(ReservationService reservationService, SmsService smsService) {
         this.reservationService = reservationService;
+        this.smsService = smsService;
     }
 
 
@@ -86,6 +89,7 @@ public class WebController {
         else{
             model.addAttribute("customerform",new CustomerForm());
             model.addAttribute("messages", "Successfully added.");
+            smsService.sendText("Your reservation of party size: " + customerForm.getPartysize() + " has been added to the list.", "+1" + customerForm.getPhonenumber());
             return "addPage";
         }
     }
@@ -119,6 +123,9 @@ public class WebController {
         model.addAttribute("customerform", customerForm);
         customerForm.setId(id);
         reservationService.saveCustomer(customerForm);
+        if (customerForm.getStatus().equals("Table Ready")){
+            smsService.sendText("Your table is ready", customerForm.getPhonenumber());
+        }
         redirAttrs.addFlashAttribute("messages", "Successfully updated customer");
         return "redirect:/all/";
     }
